@@ -8,7 +8,7 @@ const done = (res, status, message) => {
 // get all products
 // GET /api/products?keyword=''&sortBy=''
 // public
-const getAllProducts = asyncHandler(async (req, res) => {
+const getAllProductsWithKeyword = asyncHandler(async (req, res) => {
   const productsPerPage = 10
   const page = +req.query.pageNumber || 1
 
@@ -32,83 +32,145 @@ const query = search
     }
   : {}; */
 
-  const category = req.query.category || ''
-  const sortBy = req.query.sortBy || ''
+  const sortBy = req.query.sortBy || 'ratingDesc'
   const sortOptions = [
     { rating: -1 },
+    { rating: 1 },
     { countReviews: -1 },
+    { countReviews: 1 },
     { brand: -1 },
+    { brand: 1 },
     { price: -1 },
+    { price: 1 },
   ]
   let sortIndex = 0
 
   switch (sortBy) {
-    case 'rating':
+    case 'ratingDesc':
       sortIndex = 0
       break
 
-    case 'reviews':
+    case 'ratingAsc':
       sortIndex = 1
-      break
 
-    case 'brand':
+    case 'reviewsDesc':
       sortIndex = 2
       break
 
-    case 'price':
+    case 'reviewAsc':
       sortIndex = 3
       break
 
+    case 'brandDesc':
+      sortIndex = 4
+      break
+
+    case 'brandAsc':
+      sortIndex = 5
+      break
+
+    case 'priceDesc':
+      sortIndex = 6
+      break
+
+    case 'priceAsc':
+      sortIndex = 7
+      break
+
     default:
+      // ratingDesc
       sortIndex = 0
       break
   }
 
-  const queries = {}
-  if (keyword) queries.name = keyword.name
-  if (category) queries.category = category
-  // if (req.query.sortBy) queries.sortBy = req.query.sortBy
-
-  console.log(sortOptions[sortIndex])
-  console.log('queries: ', queries)
-  console.log('keyword: ', keyword)
-  console.log('category: ', category)
-
-  const products = queries
-    ? await Product.find(queries)
-        .sort(sortOptions[sortIndex])
-        .limit(productsPerPage)
-        .skip(productsPerPage * (page - 1))
-    : await Product.find()
-        .sort(sortOptions[sortIndex])
-        .limit(productsPerPage)
-        .skip(productsPerPage * (page - 1))
-
-  // if (keyword && category)
-  //   // if both keyword and category are passed in
-  //   products = await Product.find(req.query)
-  //     .limit(productsPerPage)
-  //     .skip(productsPerPage * (page - 1))
-
-  // if (keyword && (!category || category.length === 0))
-  //   // if keyword is passed in only
-  //   products = await Product.find({ ...keyword })
-  //     .limit(productsPerPage)
-  //     .skip(productsPerPage * (page - 1))
-
-  // if (category && (!keyword || keyword.length === 0))
-  //   // if category is passed in only
-  //   products = await Product.find({ category })
-  //     .limit(productsPerPage)
-  //     .skip(productsPerPage * (page - 1))
-
-  // // products sorting logic above working checked on 5/22/2021
+  const products = await Product.find({ ...keyword })
+    .sort(sortOptions[sortIndex])
+    .limit(productsPerPage)
+    .skip(productsPerPage * (page - 1))
 
   if (!products) return done(res, 404, 'Products not found')
 
   const count = products.length
 
-  res
+  return res
+    .status(200)
+    .json({ page, products, pages: Math.ceil(count / productsPerPage) })
+})
+
+// get all products under certain category
+// GET /api/products/:category
+// public
+const getAllProductsByCategory = asyncHandler(async (req, res) => {
+  const productsPerPage = 10
+  const page = +req.query.pageNumber || 1
+
+  const category = req.params.category
+  const categoriesArray = ['treats', 'drinks', 'decorations']
+  if (!categoriesArray.includes(category))
+    return done(res, 404, 'No such category')
+
+  const sortBy = req.query.sortBy || 'ratingDesc'
+  const sortOptions = [
+    { rating: -1 }, // desc
+    { rating: 1 }, // asc
+    { countReviews: -1 },
+    { countReviews: 1 },
+    { brand: -1 },
+    { brand: 1 },
+    { price: -1 },
+    { price: 1 },
+  ]
+
+  let sortIndex = 0
+
+  switch (sortBy) {
+    case 'ratingDesc':
+      sortIndex = 0
+      break
+
+    case 'ratingAsc':
+      sortIndex = 1
+
+    case 'reviewsDesc':
+      sortIndex = 2
+      break
+
+    case 'reviewAsc':
+      sortIndex = 3
+      break
+
+    case 'brandDesc':
+      sortIndex = 4
+      break
+
+    case 'brandAsc':
+      sortIndex = 5
+      break
+
+    case 'priceDesc':
+      sortIndex = 6
+      break
+
+    case 'priceAsc':
+      sortIndex = 7
+      break
+
+    default:
+      // ratingDesc
+      sortIndex = 0
+      break
+  }
+
+  const products = await Product.find({ category })
+    .sort(sortOptions[sortIndex])
+    .limit(productsPerPage)
+    .skip(productsPerPage * (page - 1))
+
+  if (!products) return done(res, 404, 'Products not found')
+
+  const count = products.length
+
+  return res
     .status(200)
     .json({ page, products, pages: Math.ceil(count / productsPerPage) })
 })
@@ -246,7 +308,8 @@ const getTopRatedProducts = asyncHandler(async (req, res) => {
 })
 
 export {
-  getAllProducts,
+  getAllProductsWithKeyword,
+  getAllProductsByCategory,
   getProductById,
   deleteProduct,
   createProduct,
