@@ -32,35 +32,81 @@ const query = search
     }
   : {}; */
 
-  const category = req.query.sortBy || ''
+  const category = req.query.category || ''
+  const sortBy = req.query.sortBy || ''
+  const sortOptions = [
+    { rating: -1 },
+    { countReviews: -1 },
+    { brand: -1 },
+    { price: -1 },
+  ]
+  let sortIndex = 0
 
-  const count = await Product.countDocuments({ ...keyword })
+  switch (sortBy) {
+    case 'rating':
+      sortIndex = 0
+      break
 
-  let products = []
+    case 'reviews':
+      sortIndex = 1
+      break
 
-  if (keyword && category)
-    // if both keyword and category are passed in
-    products = await Product.find({
-      $and: [{ ...keyword }, { category }],
-    })
-      .limit(productsPerPage)
-      .skip(productsPerPage * (page - 1))
+    case 'brand':
+      sortIndex = 2
+      break
 
-  if (keyword && !category)
-    // if keyword is passed in only
-    products = await Product.find({ ...keyword })
-      .limit(productsPerPage)
-      .skip(productsPerPage * (page - 1))
+    case 'price':
+      sortIndex = 3
+      break
 
-  if (category && !keyword)
-    // if category is passed in only
-    products = await Product.find({ category })
-      .limit(productsPerPage)
-      .skip(productsPerPage * (page - 1))
+    default:
+      sortIndex = 0
+      break
+  }
 
-  // products sorting logic above working checked on 5/22/2021
+  const queries = {}
+  if (keyword) queries.name = keyword.name
+  if (category) queries.category = category
+  // if (req.query.sortBy) queries.sortBy = req.query.sortBy
+
+  console.log(sortOptions[sortIndex])
+  console.log('queries: ', queries)
+  console.log('keyword: ', keyword)
+  console.log('category: ', category)
+
+  const products = queries
+    ? await Product.find(queries)
+        .sort(sortOptions[sortIndex])
+        .limit(productsPerPage)
+        .skip(productsPerPage * (page - 1))
+    : await Product.find()
+        .sort(sortOptions[sortIndex])
+        .limit(productsPerPage)
+        .skip(productsPerPage * (page - 1))
+
+  // if (keyword && category)
+  //   // if both keyword and category are passed in
+  //   products = await Product.find(req.query)
+  //     .limit(productsPerPage)
+  //     .skip(productsPerPage * (page - 1))
+
+  // if (keyword && (!category || category.length === 0))
+  //   // if keyword is passed in only
+  //   products = await Product.find({ ...keyword })
+  //     .limit(productsPerPage)
+  //     .skip(productsPerPage * (page - 1))
+
+  // if (category && (!keyword || keyword.length === 0))
+  //   // if category is passed in only
+  //   products = await Product.find({ category })
+  //     .limit(productsPerPage)
+  //     .skip(productsPerPage * (page - 1))
+
+  // // products sorting logic above working checked on 5/22/2021
 
   if (!products) return done(res, 404, 'Products not found')
+
+  const count = products.length
 
   res
     .status(200)
@@ -188,7 +234,7 @@ const getTopRatedProducts = asyncHandler(async (req, res) => {
       .sort({ rating: -1 })
       .limit(numTopProducts)
 
-  if (!category)
+  if (!category || category.length === 0)
     // if nothing got passed in
     products = await Product.find().sort({ rating: -1 }).limit(numTopProducts)
 
