@@ -1,9 +1,30 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import './index.css'
-import App from './App'
+import { Router } from 'react-router-dom'
+import { Provider } from 'react-redux'
+import configureStore from './store/configureStore'
 import reportWebVitals from './reportWebVitals'
+import App from './App'
+import ScrolltoTop from './utils/ScrollToTop'
+import { createBrowserHistory as createHistory } from 'history'
 
-ReactDOM.render(<App />, document.getElementById('root'))
+import 'semantic-ui-css/semantic.min.css'
+import 'react-toastify/dist/ReactToastify.min.css'
+import './index.css'
+
+const store = configureStore()
+const history = createHistory()
+
+ReactDOM.render(
+  <>
+    <Provider store={store}>
+      <Router history={history}>
+        <ScrolltoTop />
+        <App />
+      </Router>
+    </Provider>
+  </>,
+  document.getElementById('root')
+)
 
 reportWebVitals()
