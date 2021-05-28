@@ -1,16 +1,25 @@
 import React, { useState, useRef, useCallback } from 'react'
 import { useSelector } from 'react-redux'
-import { Container, Card, Loader, Dropdown } from 'semantic-ui-react'
+import { Container, Card, Loader } from 'semantic-ui-react'
 import Product from './Product'
 import CreateProductButton from '../../components/CreateProductButton'
 import { useProductsInfiniteScroll } from '../../utils/useInfiniteScroll'
+import CategoryDropdown from './CategoryDropdown'
+import SortByDropdown from './SortByDropdown'
 
 import styles from './ProductsScreen.module.css'
+import SearchBox from './SearchBox'
 
 const ProductsScreen = ({ match }) => {
   const [page, setPage] = useState(1)
-  const keyword = match.params.keyword || ''
-  const sortBy = match.params.sortBy || ''
+
+  const search = window.location.search
+  const parameter = new URLSearchParams(search)
+
+  const keyword = parameter.get('keyword')
+  const sortBy = parameter.get('sortBy')
+  const category = match.params.category || ''
+
   const { loading, error, products, hasMore } = useProductsInfiniteScroll(
     page,
     keyword,
@@ -39,7 +48,16 @@ const ProductsScreen = ({ match }) => {
     <>
       <section className={styles['products-screen']}>
         <Container>
-          <h1>Products</h1>
+          <div className={styles['products-screen-header']}>
+            <h1>Products</h1>
+
+            <SearchBox keyword={keyword} />
+
+            <div className={styles['dropdowns']}>
+              <CategoryDropdown category={category} />
+              <SortByDropdown sortBy={sortBy} />
+            </div>
+          </div>
 
           <Card.Group itemsPerRow={4} centered>
             {products &&

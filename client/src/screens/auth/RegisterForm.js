@@ -1,12 +1,12 @@
 import React from 'react'
 import { Form, Formik } from 'formik'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import * as Yup from 'yup'
 import MyTextInput from '../../components/form/MyTextInput'
 import ModalWrapper from '../../components/modals/ModalWrapper'
 import { closeModal, openModal } from '../../components/modals/modalReducer'
 import { register } from '../../redux/actions/userActions'
-import { Button, Label, Divider } from 'semantic-ui-react'
+import { Button, Divider } from 'semantic-ui-react'
 
 const RegisterForm = () => {
   const dispatch = useDispatch()

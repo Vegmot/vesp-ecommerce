@@ -3,6 +3,20 @@
   flex-direction: row;
 }
 
+.products-screen-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 3vh;
+}
+
+.dropdowns {
+  width: 15%;
+  display: flex;
+  justify-content: space-around;
+}
+
 .products-screen-container {
   margin: 0 auto;
 }

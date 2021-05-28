@@ -27,6 +27,6 @@ export const useProductsInfiniteScroll = (page, keyword = '', sortBy = '') => {
         setError(e.message)
         setLoading(false)
       })
-  }, [page])
+  }, [page, keyword, sortBy])
   return { loading, error, products, hasMore }
 }

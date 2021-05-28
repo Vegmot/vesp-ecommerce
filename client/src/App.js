@@ -12,6 +12,11 @@ const App = () => {
       <Navbar />
       <Switch>
         <Route exact path='/products/:pid' component={ProductItem} />
+        <Route
+          exact
+          path='/products/category/:category'
+          component={ProductsScreen}
+        />
         <Route exact path='/' component={ProductsScreen} />
       </Switch>
     </>

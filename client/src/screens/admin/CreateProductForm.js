@@ -60,6 +60,8 @@ const CreateProductForm = () => {
           label='Name'
           placeholder='Product name'
           disabled={submitting}
+          value={name}
+          onChange={e => setName(e.target.value)}
         />
 
         <label>File input & upload </label>
@@ -84,6 +86,8 @@ const CreateProductForm = () => {
           label='Price'
           placeholder='Price'
           disabled={submitting}
+          value={price}
+          onChange={e => setPrice(e.target.value)}
         />
 
         <input
@@ -102,6 +106,8 @@ const CreateProductForm = () => {
           label='Brand'
           placeholder='Brand'
           disabled={submitting}
+          value={brand}
+          onChange={e => setBrand(e.target.value)}
         />
 
         <Form.Field
@@ -110,6 +116,8 @@ const CreateProductForm = () => {
           label='Category'
           placeholder='Category'
           disabled={submitting}
+          value={category}
+          onChange={e => setCategory(e.target.value)}
         />
 
         <Form.Field
@@ -118,6 +126,8 @@ const CreateProductForm = () => {
           label='Count in stock'
           placeholder='Count in stock'
           disabled={submitting}
+          value={countInStock}
+          onChange={e => setCountInStock(e.target.value)}
         />
 
         <Form.Field
@@ -126,6 +136,8 @@ const CreateProductForm = () => {
           label='Description'
           placeholder='Description'
           disabled={submitting}
+          value={description}
+          onChange={e => setDescription(e.target.value)}
         />
 
         <Form.Button
