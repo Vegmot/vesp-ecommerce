@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import * as Yup from 'yup'
 import MyTextInput from '../../components/form/MyTextInput'
 import ModalWrapper from '../../components/modals/ModalWrapper'
-import { closeModal } from '../../components/modals/modalReducer'
+import { closeModal, openModal } from '../../components/modals/modalReducer'
 import { register } from '../../redux/actions/userActions'
 import { Button, Label, Divider } from 'semantic-ui-react'
 
@@ -39,6 +39,11 @@ const RegisterForm = () => {
 
   const dispatchRegister = (fn, ln, dn, em, pw) => {
     dispatch(register(fn, ln, dn, em, pw))
+  }
+
+  const signInInsideRegisterModal = () => {
+    dispatch(closeModal())
+    dispatch(openModal({ modalType: 'LoginForm' }))
   }
 
   return (
@@ -97,6 +102,14 @@ const RegisterForm = () => {
             </Form>
           )}
         </Formik>
+        <Divider horizontal />
+        Have an account?{' '}
+        <span
+          onClick={signInInsideRegisterModal}
+          style={{ color: 'green', cursor: 'pointer' }}
+        >
+          Sign In
+        </span>
       </ModalWrapper>
     </>
   )

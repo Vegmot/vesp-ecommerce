@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Menu, Icon, Container } from 'semantic-ui-react'
 import SignedInMenu from './SignedInMenu'
@@ -6,6 +7,9 @@ import SignedOutMenu from './SignedOutMenu'
 
 const Navbar = () => {
   const [activeItem, setActiveItem] = useState('shopping cart')
+
+  const userLogin = useSelector(state => state.userLogin)
+  const { userData } = userLogin
 
   const spaceBelowNavbarStyle = {
     marginBottom: '10vh',
@@ -41,7 +45,7 @@ const Navbar = () => {
             Premium
           </Menu.Item>
 
-          <SignedOutMenu />
+          {userData ? <SignedInMenu /> : <SignedOutMenu />}
         </Container>
       </Menu>
 

@@ -9,8 +9,8 @@ const done = (res, status, message) => {
 // GET /api/products?keyword=''&sortBy=''
 // public
 const getAllProductsWithKeyword = asyncHandler(async (req, res) => {
-  const productsPerPage = 10
-  const page = +req.query.pageNumber || 1
+  const productsPerPage = 8
+  const page = +req.query.page || 1
 
   const keyword = req.query.keyword
     ? {
@@ -102,7 +102,7 @@ const query = search
 // public
 const getAllProductsByCategory = asyncHandler(async (req, res) => {
   const productsPerPage = 10
-  const page = +req.query.pageNumber || 1
+  const page = +req.query.page || 1
 
   const category = req.params.category
   const categoriesArray = ['treats', 'drinks', 'decorations']
@@ -176,7 +176,7 @@ const getAllProductsByCategory = asyncHandler(async (req, res) => {
 })
 
 // get a product by its id
-// GET /api/products/:pid
+// GET /api/products/product/:pid
 // public
 const getProductById = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.pid)
@@ -186,7 +186,7 @@ const getProductById = asyncHandler(async (req, res) => {
 })
 
 // delete a product
-// DELETE /api/products/:pid
+// DELETE /api/products/product/:pid
 // private | admin
 const deleteProduct = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.pid)

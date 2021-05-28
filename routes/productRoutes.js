@@ -16,7 +16,7 @@ router.route('/toprated').get(getTopRatedProducts)
 router.route('/:category').get(getAllProductsByCategory)
 router.route('/:pid/reviews').post(protect, createProductReview)
 router
-  .route('/:pid')
+  .route('/product/:pid')
   .get(getProductById)
   .delete(deleteProduct)
   .put(protect, admin, updateProduct)
