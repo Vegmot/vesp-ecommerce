@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { Container, Grid, Image } from 'semantic-ui-react'
+import { Container, Grid, Image, Rating } from 'semantic-ui-react'
 import axios from 'axios'
+import ProductReviews from './reviews/ProductReviews'
 
 import styles from './ProductItem.module.css'
 
@@ -18,8 +19,6 @@ const ProductItem = ({ match }) => {
 
   const getProductDetail = async pid => {
     const res = await axios.get(`/api/products/product/${pid}`)
-
-    console.log(res)
 
     setProduct(res.data)
   }
@@ -43,25 +42,42 @@ const ProductItem = ({ match }) => {
                     <div className={styles['product-item']}>
                       <div className={styles['product-item-top']}>
                         <div className={styles['product-item-image']}>
-                          <Image src={product.image} alt={product.name} />
+                          <Image
+                            src={product.image && product.image}
+                            alt={product.name}
+                          />
                         </div>
 
                         <div className={styles['product-item-info']}>
-                          <p>Product name: {product.name}</p>
-                          <p>Price: $ {product.price}</p>
-                          <p>Brand: {product.brand}</p>
+                          <p>Product name: {product.name && product.name}</p>
+
+                          <p>Price: $ {product.price && product.price}</p>
+
+                          <p>Brand: {product.brand && product.brand}</p>
+
                           <p>
                             Category:{' '}
-                            {product.category.charAt(0).toUpperCase() +
-                              product.category.substring(1)}
+                            {product.category &&
+                              product.category.charAt(0).toUpperCase() +
+                                product.category.substring(1)}
                           </p>
-                          <p>{product.countReviews} reviews</p>
+
+                          <Rating
+                            icon='star'
+                            rating={product.rating}
+                            maxRating={5}
+                            disabled
+                          />
+                          <p>
+                            {product.countReviews && product.countReviews}{' '}
+                            review(s)
+                          </p>
                         </div>
                       </div>
 
                       <div className={styles['product-item-bottom']}>
                         <div className={styles['product-item-description']}>
-                          <p>{product.description}</p>
+                          <p>{product.description && product.description}</p>
                         </div>
                       </div>
                     </div>
@@ -88,7 +104,13 @@ const ProductItem = ({ match }) => {
               <Grid.Column
                 width={12}
                 className={styles['product-item-reviews-container']}
-              ></Grid.Column>
+              >
+                {product.countReviews > 0
+                  ? product.reviews.map(review => {
+                      return <ProductReviews key={review._id} review={review} />
+                    })
+                  : 'This product has no reviews'}
+              </Grid.Column>
             </Grid.Row>
           </Grid>
         </section>

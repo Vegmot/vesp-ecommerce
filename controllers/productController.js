@@ -266,6 +266,7 @@ const createProductReview = asyncHandler(async (req, res) => {
 
   const review = {
     user: req.user._id,
+    avatar: req.user.avatar,
     displayName: req.user.displayName,
     rating: +rating,
     text,
@@ -278,7 +279,7 @@ const createProductReview = asyncHandler(async (req, res) => {
     product.reviews.length
 
   await product.save()
-  return done(res, 200, 'Review added successfully')
+  return res.status(200).json(review)
 })
 
 // get top products

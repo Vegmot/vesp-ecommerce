@@ -5,9 +5,6 @@ import { Dropdown } from 'semantic-ui-react'
 const CategoryDropdown = ({ category }) => {
   const categories = ['treats', 'drinks', 'decorations']
 
-  console.log(categories)
-  console.log(category)
-
   // const sortProductsByCategory = () => {}
 
   return (
