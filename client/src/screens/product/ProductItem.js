@@ -5,6 +5,7 @@ import axios from 'axios'
 import ProductReviews from './reviews/ProductReviews'
 
 import styles from './ProductItem.module.css'
+import PurchaseOverview from './overview/PurchaseOverview'
 
 const ProductItem = ({ match }) => {
   const productID = match.params.pid
@@ -33,7 +34,7 @@ const ProductItem = ({ match }) => {
           <Grid>
             <Grid.Row>
               <Grid.Column
-                width={12}
+                width={10}
                 className={styles['product-item-container']}
                 style={{ padding: 0 }}
               >
@@ -49,7 +50,7 @@ const ProductItem = ({ match }) => {
                         </div>
 
                         <div className={styles['product-item-info']}>
-                          <p>Product name: {product.name && product.name}</p>
+                          <p>Name: {product.name && product.name}</p>
 
                           <p>Price: $ {product.price && product.price}</p>
 
@@ -87,8 +88,10 @@ const ProductItem = ({ match }) => {
                 )}
               </Grid.Column>
 
-              <Grid.Column width={2} className={styles['sidebar']}>
-                Cart and Checkout
+              <Grid.Column width={2}></Grid.Column>
+
+              <Grid.Column width={4} className={styles['sidebar']}>
+                <PurchaseOverview product={product} />
               </Grid.Column>
             </Grid.Row>
           </Grid>
@@ -102,7 +105,7 @@ const ProductItem = ({ match }) => {
           <Grid>
             <Grid.Row>
               <Grid.Column
-                width={12}
+                width={10}
                 className={styles['product-item-reviews-container']}
               >
                 {product.countReviews > 0

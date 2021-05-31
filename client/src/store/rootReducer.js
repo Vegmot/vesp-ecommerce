@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux'
 import { modalReducer } from '../components/modals/modalReducer'
+import { cartReducer } from '../redux/reducers/cartReducer'
 import {
   userLoginReducer,
   registerReducer,
@@ -20,6 +21,9 @@ const rootReducer = combineReducers({
   // product
 
   // order
+
+  // cart
+  cart: cartReducer,
 })
 
 export default rootReducer

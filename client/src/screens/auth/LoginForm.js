@@ -32,19 +32,11 @@ const LoginForm = () => {
         onSubmit={(values, { setSubmitting, setErrors }) => {
           try {
             dispatch(login(values.email, values.password))
-
-            if (errorMsg || !userData) {
-              setSubmitting(false)
-              setLoginError(errorMsg)
-              console.log('Logging inside else statement: ', errorMsg)
-            } else {
-              setSubmitting(false)
-              dispatch(closeModal())
-            }
+            setSubmitting(false)
+            dispatch(closeModal())
           } catch (error) {
             setErrors({ errors: error.message })
             setSubmitting(false)
-            console.log('Logging inside catch')
           }
         }}
       >

@@ -13,6 +13,7 @@ import {
   DELETE_USER_SUCCESS,
   DELETE_USER_FAIL,
 } from '../constants/userConstants'
+import { CART_REMOVE_ITEM } from '../constants/cartConstants'
 
 export const login = (email, password) => async dispatch => {
   try {
@@ -88,6 +89,7 @@ export const register =
 
 export const logout = () => {
   localStorage.removeItem('userData')
+  localStorage.removeItem('cartItems')
   window.location.href = '/'
 }
 
