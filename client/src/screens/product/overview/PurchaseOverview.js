@@ -37,12 +37,44 @@ const PurchaseOverview = ({ product }) => {
     if (!userData) dispatch(openModal({ modalType: 'LoginForm' }))
     if (userData) {
       dispatch(addToCart(pid, qty))
-      displayMessage()
+      displayAddSuccessMessage()
     }
   }
 
-  const displayMessage = () => {
-    toast.success('Added item to cart!')
+  const removeFromCartHandler = () => {
+    if (!userData) dispatch(openModal({ modalType: 'LoginForm' }))
+    if (userData) {
+      dispatch(removeFromCart(pid))
+      displayRemoveSuccessMessage()
+    }
+  }
+
+  const displayAddSuccessMessage = () => {
+    toast.success(
+      <div>
+        Added item to cart!{' '}
+        <span
+          style={{ textDecoration: 'underline', cursor: 'pointer' }}
+          onClick={removeFromCartHandler}
+        >
+          Undo
+        </span>
+      </div>
+    )
+  }
+
+  const displayRemoveSuccessMessage = () => {
+    toast.success(
+      <div>
+        Removed item from cart!{' '}
+        <span
+          style={{ textDecoration: 'underline', cursor: 'pointer' }}
+          onClick={addToCartHandler}
+        >
+          Undo
+        </span>
+      </div>
+    )
   }
 
   return (
