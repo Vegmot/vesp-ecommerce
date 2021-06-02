@@ -229,7 +229,7 @@ const createProduct = asyncHandler(async (req, res) => {
 })
 
 // update a product
-// PUT /api/products/:pid
+// PUT /api/products/product/:pid
 // private | admin
 const updateProduct = asyncHandler(async (req, res) => {
   const { name, price, description, image, brand, category, countInStock } =
@@ -251,7 +251,7 @@ const updateProduct = asyncHandler(async (req, res) => {
 })
 
 // create a product review
-// POST /api/products/:pid/reviews
+// POST /api/products/product/:pid/reviews
 // private
 const createProductReview = asyncHandler(async (req, res) => {
   const { rating, text } = req.body

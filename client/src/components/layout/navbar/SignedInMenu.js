@@ -21,17 +21,21 @@ const SignedInMenu = () => {
           <Dropdown.Menu>
             <Dropdown.Item
               as={Link}
-              to={`/profile/${userData._id}`}
+              to='/profile'
               text='My profile'
               icon='user'
             />
 
+            <Dropdown.Item as={Link} to='cart' text='My cart' icon='cart' />
+
             <Dropdown.Item
               as={Link}
-              to='/account'
-              text='My account'
-              icon='settings'
+              to='/orders'
+              text='My orders'
+              icon='truck'
             />
+
+            <Dropdown.Divider />
 
             <Dropdown.Item
               onClick={logOutHandler}

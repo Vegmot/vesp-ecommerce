@@ -7,7 +7,7 @@ import ProductReviews from './reviews/ProductReviews'
 import styles from './ProductItem.module.css'
 import PurchaseOverview from './overview/PurchaseOverview'
 
-const ProductItem = ({ match }) => {
+const ProductItem = ({ match, history }) => {
   const productID = match.params.pid
   const [product, setProduct] = useState({})
 
@@ -28,10 +28,9 @@ const ProductItem = ({ match }) => {
     <>
       <Container>
         <section className={styles['product-item-screen']}>
-          {userData ? 'You are logged in' : 'You are not logged in'}
           <h2>Product Details</h2>
 
-          <Grid>
+          <Grid contaner>
             <Grid.Row>
               <Grid.Column
                 width={10}
@@ -91,7 +90,11 @@ const ProductItem = ({ match }) => {
               <Grid.Column width={2}></Grid.Column>
 
               <Grid.Column width={4} className={styles['sidebar']}>
-                <PurchaseOverview product={product} />
+                <PurchaseOverview
+                  product={product}
+                  history={history}
+                  match={match}
+                />
               </Grid.Column>
             </Grid.Row>
           </Grid>

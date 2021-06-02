@@ -2,15 +2,23 @@ import React, { useState } from 'react'
 import { Button, Card, Dropdown } from 'semantic-ui-react'
 import { useDispatch, useSelector } from 'react-redux'
 import { openModal } from '../../../components/modals/modalReducer'
+import { addToCart, removeFromCart } from '../../../redux/actions/cartActions'
+import { ToastContainer, toast } from 'react-toastify'
+
+import 'react-toastify/dist/ReactToastify.css'
 
 const PurchaseOverview = ({ product }) => {
   const dispatch = useDispatch()
+  const pid = product._id
 
   const itemInStock = product.countInStock > 0
   const [qty, setQty] = useState(1)
 
   const userLogin = useSelector(state => state.userLogin)
   const { userData } = userLogin
+
+  const cart = useSelector(state => state.cart)
+  const { cartItems, successAddItem, successRemoveItem } = cart
 
   const maxQtyPerOrder = 10
   const qtyOptions = []
@@ -27,6 +35,14 @@ const PurchaseOverview = ({ product }) => {
 
   const addToCartHandler = () => {
     if (!userData) dispatch(openModal({ modalType: 'LoginForm' }))
+    if (userData) {
+      dispatch(addToCart(pid, qty))
+      displayMessage()
+    }
+  }
+
+  const displayMessage = () => {
+    toast.success('Added item to cart!')
   }
 
   return (
@@ -60,6 +76,16 @@ const PurchaseOverview = ({ product }) => {
             disabled={!itemInStock}
             color='teal'
             onClick={addToCartHandler}
+          />
+          <ToastContainer
+            position='top-center'
+            autoClose={4000}
+            hideProgressBar
+            draggable={false}
+            closeOnClick
+            pauseOnHover={false}
+            newestOnTop
+            pauseOnFocusLoss
           />
         </Card.Content>
       </Card>

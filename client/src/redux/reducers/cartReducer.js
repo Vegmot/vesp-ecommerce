@@ -6,7 +6,14 @@ import {
 } from '../constants/cartConstants'
 
 export const cartReducer = (
-  state = { cartItems: [], shippingAddress: {} },
+  state = {
+    cartItems: [],
+    successAddItem: false,
+    successRemoveItem: false,
+    successSaveSA: false,
+    successSavePM: false,
+    shippingAddress: {},
+  },
   action
 ) => {
   switch (action.type) {
@@ -19,11 +26,13 @@ export const cartReducer = (
           cartItems: state.cartItems.map(cartItem =>
             cartItem.product === existItem.product ? item : cartItem
           ),
+          successAddItem: true,
         }
       } else {
         return {
           ...state,
           cartItems: [...state.cartItems, item],
+          successAddItem: true,
         }
       }
     case CART_REMOVE_ITEM:
@@ -32,18 +41,21 @@ export const cartReducer = (
         cartItems: state.cartItems.filter(
           cartItem => cartItem.product !== action.payload
         ),
+        successRemoveItem: true,
       }
 
     case CART_SAVE_SHIPPING_ADDRESS:
       return {
         ...state,
         shippingAddress: action.payload,
+        successSaveSA: true,
       }
 
     case CART_SAVE_PAYMENT_METHOD:
       return {
         ...state,
         paymentMethod: action.payload,
+        successSavePM: true,
       }
 
     default:

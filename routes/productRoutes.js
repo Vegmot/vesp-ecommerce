@@ -14,7 +14,7 @@ const router = express.Router()
 
 router.route('/toprated').get(getTopRatedProducts)
 router.route('/:category').get(getAllProductsByCategory)
-router.route('/:pid/reviews').post(protect, createProductReview)
+router.route('/product/:pid/reviews').post(protect, createProductReview)
 router
   .route('/product/:pid')
   .get(getProductById)
