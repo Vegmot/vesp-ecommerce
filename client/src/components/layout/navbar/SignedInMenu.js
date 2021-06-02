@@ -26,7 +26,7 @@ const SignedInMenu = () => {
               icon='user'
             />
 
-            <Dropdown.Item as={Link} to='cart' text='My cart' icon='cart' />
+            <Dropdown.Item as={Link} to='/cart' text='My cart' icon='cart' />
 
             <Dropdown.Item
               as={Link}

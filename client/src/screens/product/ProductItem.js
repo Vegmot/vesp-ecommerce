@@ -28,7 +28,7 @@ const ProductItem = ({ match, history }) => {
     <>
       <Container>
         <section className={styles['product-item-screen']}>
-          <h2>Product Details</h2>
+          <h2 style={{ marginBottom: '3vh' }}>Product info: {product.name}</h2>
 
           <Grid contaner>
             <Grid.Row>

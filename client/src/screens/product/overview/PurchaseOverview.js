@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Card, Dropdown } from 'semantic-ui-react'
+import { Button, Card, Dropdown, Icon } from 'semantic-ui-react'
 import { useDispatch, useSelector } from 'react-redux'
 import { openModal } from '../../../components/modals/modalReducer'
 import { addToCart, removeFromCart } from '../../../redux/actions/cartActions'
@@ -16,9 +16,6 @@ const PurchaseOverview = ({ product }) => {
 
   const userLogin = useSelector(state => state.userLogin)
   const { userData } = userLogin
-
-  const cart = useSelector(state => state.cart)
-  const { cartItems, successAddItem, successRemoveItem } = cart
 
   const maxQtyPerOrder = 10
   const qtyOptions = []
@@ -77,6 +74,10 @@ const PurchaseOverview = ({ product }) => {
     )
   }
 
+  const onChangeHandler = (e, data) => {
+    setQty(data.value)
+  }
+
   return (
     <>
       <Card>
@@ -86,24 +87,108 @@ const PurchaseOverview = ({ product }) => {
           <h5>{`Price: $ ${product.price}`}</h5>
         </Card.Content>
 
-        <Card.Content>
-          <h5>{itemInStock ? 'In stock' : 'Out of stock'}</h5>
-        </Card.Content>
+        {product.category === 'decorations' ? (
+          <Card.Content>
+            <h5 style={{ color: 'orange' }}>
+              <span>
+                <Icon name='exclamation circle' />
+              </span>{' '}
+              Nutritional info not available
+            </h5>
+          </Card.Content>
+        ) : (
+          <Card.Content>
+            {product.isVegan && (
+              <h5>
+                <span>
+                  <Icon name='vimeo' />
+                </span>
+                Vegan{' '}
+              </h5>
+            )}
+
+            {product.isNONGMO && (
+              <h5>
+                <span>
+                  <Icon name='gofore' />
+                </span>
+                NON-GMO{' '}
+              </h5>
+            )}
+
+            {product.isKosher && (
+              <h5>
+                <span>
+                  <Icon name='kickstarter k' />
+                </span>
+                Kosher
+              </h5>
+            )}
+
+            {product.isCrueltyFree && (
+              <h5>
+                <span>
+                  <Icon name='copyright outline' />
+                </span>
+                Cruelty-free
+              </h5>
+            )}
+
+            {product.isOrganic && (
+              <h5>
+                <span>
+                  <Icon name='opera' />
+                </span>
+                Organic
+              </h5>
+            )}
+
+            {product.isGlutenFree && (
+              <h5>
+                <span>
+                  <Icon name='pie graph' />
+                </span>
+                Gluten-free
+              </h5>
+            )}
+
+            {product.isAllergenFree && (
+              <h5>
+                <span>
+                  <Icon name='vimeo' />
+                </span>
+                Allergen-free
+              </h5>
+            )}
+          </Card.Content>
+        )}
+
+        {product.isOnlyForAdults && (
+          <Card.Content>
+            <h5 style={{ color: 'red' }}>
+              <span>
+                <Icon name='exclamation circle' />
+              </span>
+              Not available for below 21
+            </h5>
+          </Card.Content>
+        )}
 
         <Card.Content>
           <Dropdown
             fluid
             selection
+            name='qty'
             defaultValue={1}
             value={qty}
-            onChange={e => setQty(e.target.value)}
+            onChange={onChangeHandler}
             options={qtyOptions}
           />
         </Card.Content>
 
         <Card.Content extra>
           <Button
-            content='Add to cart'
+            content={itemInStock ? 'Add to cart' : 'Out of stock'}
             fluid
             disabled={!itemInStock}
             color='teal'

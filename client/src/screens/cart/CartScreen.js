@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react'
-import { Table, Grid, Container } from 'semantic-ui-react'
+import { Table, Grid, Container, Image } from 'semantic-ui-react'
 import { useDispatch, useSelector } from 'react-redux'
 import CartOverview from './CartOverview'
 import { addToCart, removeFromCart } from '../../redux/actions/cartActions'
+import { openModal } from '../../components/modals/modalReducer'
 
 const CartScreen = ({ match, location, history }) => {
   const pid = match.params.pid
@@ -11,6 +12,9 @@ const CartScreen = ({ match, location, history }) => {
 
   const cart = useSelector(state => state.cart)
   const { cartItems } = cart
+
+  const userLogin = useSelector(state => state.userLogin)
+  const { userData } = userLogin
 
   useEffect(() => {
     if (pid) dispatch(addToCart(pid, qty))
@@ -26,45 +30,58 @@ const CartScreen = ({ match, location, history }) => {
 
   return (
     <>
-      <Container>
-        <Grid>
-          <Grid.Row>
-            <Grid.Column width={10}>
-              {cartItems && cartItems.length > 0 ? (
-                <Table striped>
-                  <Table.Row>
-                    <Table.HeaderCell>Name</Table.HeaderCell>
-                    <Table.HeaderCell>Image</Table.HeaderCell>
-                    <Table.HeaderCell>Price</Table.HeaderCell>
-                    <Table.HeaderCell>Quantity</Table.HeaderCell>
-                  </Table.Row>
+      {!userData ? (
+        <Container>
+          <h1>You need to log in</h1>
+        </Container>
+      ) : (
+        <Container>
+          <Grid>
+            <Grid.Row>
+              <Grid.Column width={10}>
+                {cartItems && cartItems.length > 0 ? (
+                  <Table striped textAlign='center'>
+                    <Table.Header>
+                      <Table.Row>
+                        <Table.HeaderCell>Name</Table.HeaderCell>
+                        <Table.HeaderCell>Image</Table.HeaderCell>
+                        <Table.HeaderCell>Price</Table.HeaderCell>
+                        <Table.HeaderCell>Quantity</Table.HeaderCell>
+                      </Table.Row>
+                    </Table.Header>
 
-                  <Table.Body>
-                    <Table.Row>
+                    <Table.Body>
                       {cartItems.map(cartItem => (
-                        <div key={cartItem.product}>
+                        <Table.Row key={cartItem.product}>
                           <Table.Cell>{cartItem.name}</Table.Cell>
-                          <Table.Cell>{cartItem.image}</Table.Cell>
+                          <Table.Cell>
+                            <Image
+                              src={cartItem.image}
+                              alt={cartItem.name}
+                              size='tiny'
+                              centered
+                            />
+                          </Table.Cell>
                           <Table.Cell>{cartItem.price}</Table.Cell>
                           <Table.Cell>{cartItem.qty}</Table.Cell>
-                        </div>
+                        </Table.Row>
                       ))}
-                    </Table.Row>
-                  </Table.Body>
-                </Table>
-              ) : (
-                <h1>Your cart is empty</h1>
-              )}
-            </Grid.Column>
+                    </Table.Body>
+                  </Table>
+                ) : (
+                  <h1>Your cart is empty</h1>
+                )}
+              </Grid.Column>
 
-            <Grid.Column width={2}></Grid.Column>
+              <Grid.Column width={2}></Grid.Column>
 
-            <Grid.Column width={4}>
-              {cartItems && cartItems.length > 0 && <CartOverview />}
-            </Grid.Column>
-          </Grid.Row>
-        </Grid>
-      </Container>
+              <Grid.Column width={4}>
+                {cartItems && cartItems.length > 0 && <CartOverview />}
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
+        </Container>
+      )}
     </>
   )
 }
