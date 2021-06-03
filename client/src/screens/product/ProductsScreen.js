@@ -1,6 +1,6 @@
 import React, { useState, useRef, useCallback } from 'react'
 import { useSelector } from 'react-redux'
-import { Container, Card, Loader } from 'semantic-ui-react'
+import { Container, Card, Loader, Icon } from 'semantic-ui-react'
 import Product from './Product'
 import CreateProductButton from '../../components/CreateProductButton'
 import { useProductsInfiniteScroll } from '../../utils/useInfiniteScroll'
@@ -89,6 +89,12 @@ const ProductsScreen = ({ match }) => {
 
       {loading && <Loader active inline='centered' size='big' />}
       {error && !loading && <p>{error}</p>}
+
+      {!hasMore && !loading && (
+        <div className={styles['products-screen-endpoint']}>
+          <Icon name='circle' size='large' disabled />
+        </div>
+      )}
     </>
   )
 }

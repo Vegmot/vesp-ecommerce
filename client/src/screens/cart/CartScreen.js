@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Table, Grid, Container, Image } from 'semantic-ui-react'
+import { Table, Grid, Container, Image, Icon } from 'semantic-ui-react'
 import { useDispatch, useSelector } from 'react-redux'
 import CartOverview from './CartOverview'
 import { addToCart, removeFromCart } from '../../redux/actions/cartActions'
@@ -64,6 +64,15 @@ const CartScreen = ({ match, location, history }) => {
                           </Table.Cell>
                           <Table.Cell>{cartItem.price}</Table.Cell>
                           <Table.Cell>{cartItem.qty}</Table.Cell>
+                          <Table.Cell>
+                            <Icon
+                              name='trash alternate outline'
+                              bordered
+                              inverted
+                              color='red'
+                              onClick={handleRemoveFromCart}
+                            />
+                          </Table.Cell>
                         </Table.Row>
                       ))}
                     </Table.Body>

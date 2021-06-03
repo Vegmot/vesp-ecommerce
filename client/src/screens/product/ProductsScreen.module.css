@@ -1,3 +1,4 @@
+/* Global */
 .products-screen {
   display: flex;
   flex-direction: row;
@@ -29,4 +30,18 @@
   display: flex;
   margin: 0.875em 0.5em;
   float: none;
+}
+
+.products-screen-endpoint {
+  width: 1.2vw;
+  height: 5vh;
+  margin: 5vh auto;
+}
+
+/* Mobile */
+@media (max-width: 500px) {
+}
+
+/* Desktop */
+@media (min-width: 501px) {
 }

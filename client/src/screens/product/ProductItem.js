@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Container, Grid, Image, Rating } from 'semantic-ui-react'
 import axios from 'axios'
 import ProductReviews from './reviews/ProductReviews'
+import PurchaseOverview from './overview/PurchaseOverview'
+import { openModal } from '../../components/modals/modalReducer'
 
 import styles from './ProductItem.module.css'
-import PurchaseOverview from './overview/PurchaseOverview'
 
 const ProductItem = ({ match, history }) => {
+  const dispatch = useDispatch()
+
   const productID = match.params.pid
   const [product, setProduct] = useState({})
 
@@ -111,11 +114,43 @@ const ProductItem = ({ match, history }) => {
                 width={10}
                 className={styles['product-item-reviews-container']}
               >
-                {product.countReviews > 0
-                  ? product.reviews.map(review => {
-                      return <ProductReviews key={review._id} review={review} />
-                    })
-                  : 'This product has no reviews'}
+                {product.countReviews > 0 ? (
+                  product.reviews.map(review => {
+                    return <ProductReviews key={review._id} review={review} />
+                  })
+                ) : userData ? (
+                  <p>
+                    This product has no reviews.{' '}
+                    <span
+                      style={{
+                        cursor: 'pointer',
+                        color: 'teal',
+                        textDecoration: 'underline',
+                      }}
+                      onClick={() => console.log('Open wrtie review component')}
+                    >
+                      Write
+                    </span>{' '}
+                    a review
+                  </p>
+                ) : (
+                  <p>
+                    This product has no reviews.{' '}
+                    <span
+                      style={{
+                        cursor: 'pointer',
+                        color: 'teal',
+                        textDecoration: 'underline',
+                      }}
+                      onClick={() =>
+                        dispatch(openModal({ modalType: 'LoginForm' }))
+                      }
+                    >
+                      Sign in
+                    </span>{' '}
+                    to write a review
+                  </p>
+                )}
               </Grid.Column>
             </Grid.Row>
           </Grid>

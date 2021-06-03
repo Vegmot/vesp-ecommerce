@@ -6,6 +6,7 @@ import { addToCart, removeFromCart } from '../../../redux/actions/cartActions'
 import { ToastContainer, toast } from 'react-toastify'
 
 import 'react-toastify/dist/ReactToastify.css'
+import NutritionalInfo from './NutritionalInfo'
 
 const PurchaseOverview = ({ product }) => {
   const dispatch = useDispatch()
@@ -97,70 +98,7 @@ const PurchaseOverview = ({ product }) => {
             </h5>
           </Card.Content>
         ) : (
-          <Card.Content>
-            {product.isVegan && (
-              <h5>
-                <span>
-                  <Icon name='vimeo' />
-                </span>
-                Vegan{' '}
-              </h5>
-            )}
-
-            {product.isNONGMO && (
-              <h5>
-                <span>
-                  <Icon name='gofore' />
-                </span>
-                NON-GMO{' '}
-              </h5>
-            )}
-
-            {product.isKosher && (
-              <h5>
-                <span>
-                  <Icon name='kickstarter k' />
-                </span>
-                Kosher
-              </h5>
-            )}
-
-            {product.isCrueltyFree && (
-              <h5>
-                <span>
-                  <Icon name='copyright outline' />
-                </span>
-                Cruelty-free
-              </h5>
-            )}
-
-            {product.isOrganic && (
-              <h5>
-                <span>
-                  <Icon name='opera' />
-                </span>
-                Organic
-              </h5>
-            )}
-
-            {product.isGlutenFree && (
-              <h5>
-                <span>
-                  <Icon name='pie graph' />
-                </span>
-                Gluten-free
-              </h5>
-            )}
-
-            {product.isAllergenFree && (
-              <h5>
-                <span>
-                  <Icon name='vimeo' />
-                </span>
-                Allergen-free
-              </h5>
-            )}
-          </Card.Content>
+          <NutritionalInfo product={product} />
         )}
 
         {product.isOnlyForAdults && (
@@ -169,7 +107,7 @@ const PurchaseOverview = ({ product }) => {
               <span>
                 <Icon name='exclamation circle' />
               </span>
-              Not available for below 21
+              Not available for under 21
             </h5>
           </Card.Content>
         )}
