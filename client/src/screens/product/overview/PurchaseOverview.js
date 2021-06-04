@@ -7,10 +7,12 @@ import { ToastContainer, toast } from 'react-toastify'
 
 import 'react-toastify/dist/ReactToastify.css'
 import NutritionalInfo from './NutritionalInfo'
+import CartOverview from '../../cart/CartOverview'
 
-const PurchaseOverview = ({ product }) => {
+const PurchaseOverview = ({ product, history }) => {
   const dispatch = useDispatch()
   const pid = product._id
+  const popupAutoCloseDuration = 5000
 
   const itemInStock = product.countInStock > 0
   const [qty, setQty] = useState(1)
@@ -57,6 +59,13 @@ const PurchaseOverview = ({ product }) => {
         >
           Undo
         </span>
+        <span> </span>
+        <span
+          style={{ textDecoration: 'underline', cursor: 'pointer' }}
+          onClick={() => history.push('/cart')}
+        >
+          Go to Cart
+        </span>
       </div>
     )
   }
@@ -70,6 +79,13 @@ const PurchaseOverview = ({ product }) => {
           onClick={addToCartHandler}
         >
           Undo
+        </span>
+        <span> </span>
+        <span
+          style={{ textDecoration: 'underline', cursor: 'pointer' }}
+          onClick={() => history.push('/cart')}
+        >
+          Go to Cart
         </span>
       </div>
     )
@@ -98,7 +114,9 @@ const PurchaseOverview = ({ product }) => {
             </h5>
           </Card.Content>
         ) : (
-          <NutritionalInfo product={product} />
+          <Card.Content>
+            <NutritionalInfo product={product} />
+          </Card.Content>
         )}
 
         {product.isOnlyForAdults && (
@@ -134,7 +152,7 @@ const PurchaseOverview = ({ product }) => {
           />
           <ToastContainer
             position='top-center'
-            autoClose={4000}
+            autoClose={popupAutoCloseDuration}
             hideProgressBar
             draggable={false}
             closeOnClick

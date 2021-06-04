@@ -16,8 +16,17 @@ export const addToCart = (pid, qty) => async (dispatch, getState) => {
       name: data.name,
       image: data.image,
       price: data.price,
+      category: data.category,
       countInStock: data.countInStock,
       qty,
+      isVegan: data.isVegan,
+      isKosher: data.isKosher,
+      isCrueltyFree: data.isCrueltyFree,
+      isGlutenFree: data.isGlutenFree,
+      isNONGMO: data.isNONGMO,
+      isOrganic: data.isOrganic,
+      isAllergenFree: data.isAllergenFree,
+      isOnlyForAdults: data.isOnlyForAdults,
     },
   })
 

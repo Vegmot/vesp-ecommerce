@@ -7,6 +7,8 @@ import ProductItem from './screens/product/ProductItem'
 import CartScreen from './screens/cart/CartScreen'
 import ProfileScreen from './screens/user/ProfileScreen'
 import OrderScreen from './screens/order/OrderScreen'
+import ShippingScreen from './screens/order/ShippingScreen'
+import BillingScreen from './screens/order/BillingScreen'
 
 const App = () => {
   return (
@@ -14,6 +16,9 @@ const App = () => {
       <ModalManager />
       <Navbar />
       <Switch>
+        <Route exact path='/confirm-order' component={OrderScreen} />
+        <Route exact path='/billing' component={BillingScreen} />
+        <Route exact path='/shipping' component={ShippingScreen} />
         <Route exact path='/orders' component={OrderScreen} />
         <Route exact path='/profile' component={ProfileScreen} />
         <Route exact path='/cart' component={CartScreen} />

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container } from 'semantic-ui-react'
+import { Container, Step, Icon } from 'semantic-ui-react'
 import { useDispatch, useSelector } from 'react-redux'
 
 const OrderScreen = () => {
@@ -15,8 +15,37 @@ const OrderScreen = () => {
           <h1>You need to log in</h1>
         </Container>
       ) : (
-        <Container>
-          <h1>Your orders will be displayed here</h1>
+        <Container textAlign='center'>
+          <div>
+            <Step.Group>
+              <Step>
+                <Icon name='truck' />
+                <Step.Content>
+                  <Step.Title>Shipping</Step.Title>
+                  <Step.Description>
+                    Choose your shipping options
+                  </Step.Description>
+                </Step.Content>
+              </Step>
+
+              <Step>
+                <Icon name='payment' />
+                <Step.Content>
+                  <Step.Title>Billing</Step.Title>
+                  <Step.Description>Enter billing information</Step.Description>
+                </Step.Content>
+              </Step>
+
+              <Step active>
+                <Icon name='info' />
+                <Step.Content>
+                  <Step.Title>Confirm Order</Step.Title>
+                </Step.Content>
+              </Step>
+            </Step.Group>
+          </div>
+
+          <div></div>
         </Container>
       )}
     </>
