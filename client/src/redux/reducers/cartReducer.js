@@ -3,6 +3,7 @@ import {
   CART_REMOVE_ITEM,
   CART_SAVE_SHIPPING_ADDRESS,
   CART_SAVE_PAYMENT_METHOD,
+  CART_SAVE_CREDIT_CARD_INFO,
 } from '../constants/cartConstants'
 
 export const cartReducer = (
@@ -12,7 +13,10 @@ export const cartReducer = (
     successRemoveItem: false,
     successSaveSA: false,
     successSavePM: false,
+    successSaveCCInfo: false,
     shippingAddress: {},
+    paymentMethod: null,
+    creditCardInfo: null,
   },
   action
 ) => {
@@ -56,6 +60,13 @@ export const cartReducer = (
         ...state,
         paymentMethod: action.payload,
         successSavePM: true,
+      }
+
+    case CART_SAVE_CREDIT_CARD_INFO:
+      return {
+        ...state,
+        creditCardInfo: action.payload,
+        successSaveCCInfo: true,
       }
 
     default:

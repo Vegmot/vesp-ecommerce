@@ -2,7 +2,7 @@ import React from 'react'
 import { Container, Step, Icon } from 'semantic-ui-react'
 import { useDispatch, useSelector } from 'react-redux'
 
-const OrderScreen = () => {
+const ConfirmOrderScreen = () => {
   const dispatch = useDispatch()
 
   const userLogin = useSelector(state => state.userLogin)
@@ -23,7 +23,7 @@ const OrderScreen = () => {
                 <Step.Content>
                   <Step.Title>Shipping</Step.Title>
                   <Step.Description>
-                    Choose your shipping options
+                    Enter your shipping Address
                   </Step.Description>
                 </Step.Content>
               </Step>
@@ -52,4 +52,4 @@ const OrderScreen = () => {
   )
 }
 
-export default OrderScreen
+export default ConfirmOrderScreen

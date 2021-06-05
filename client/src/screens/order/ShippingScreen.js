@@ -4,15 +4,35 @@ import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import MyTextInput from '../../components/form/MyTextInput'
 import MySelectInput from '../../components/form/MySelectInput'
+import { saveShippingAddress } from '../../redux/actions/cartActions'
+import { useDispatch, useSelector } from 'react-redux'
 
 const ShippingScreen = ({ history }) => {
+  const dispatch = useDispatch()
+
+  const cart = useSelector(state => state.cart)
+  const { shippingAddress } = cart
+
   const initialValues = {
-    address1: '',
-    address2: '',
-    city: '',
-    state: '',
-    zipCode: '',
-    country: '',
+    address1:
+      shippingAddress && shippingAddress.address1
+        ? shippingAddress.address1
+        : '',
+    address2:
+      shippingAddress && shippingAddress.address2
+        ? shippingAddress.address2
+        : '',
+    city: shippingAddress && shippingAddress.city ? shippingAddress.city : '',
+    state:
+      shippingAddress &&
+      shippingAddress.country === 'USA' &&
+      shippingAddress.state
+        ? shippingAddress.state
+        : '',
+    zipCode:
+      shippingAddress && shippingAddress.zipCode ? shippingAddress.zipCode : '',
+    country:
+      shippingAddress && shippingAddress.country ? shippingAddress.country : '',
   }
 
   const validationSchema = Yup.object({
@@ -79,9 +99,7 @@ const ShippingScreen = ({ history }) => {
               <Icon name='truck' />
               <Step.Content>
                 <Step.Title>Shipping</Step.Title>
-                <Step.Description>
-                  Choose your shipping options
-                </Step.Description>
+                <Step.Description>Enter your shipping address</Step.Description>
               </Step.Content>
             </Step>
 
@@ -127,6 +145,7 @@ const ShippingScreen = ({ history }) => {
                   .map(s => s.charAt(0).toUpperCase() + s.substring(1))
                   .join(' ')
 
+                dispatch(saveShippingAddress(values))
                 history.push('/billing')
                 setSubmitting(false)
               } catch (error) {
@@ -135,7 +154,7 @@ const ShippingScreen = ({ history }) => {
               }
             }}
           >
-            {({ values, isSubmitting, isValid, dirty }) => (
+            {({ values, isSubmitting, isValid }) => (
               <Form className='ui form'>
                 <MyTextInput name='address1' placeholder='Enter address' />
 
@@ -164,7 +183,7 @@ const ShippingScreen = ({ history }) => {
 
                 <Button
                   loading={isSubmitting}
-                  disabled={!isValid || !dirty || isSubmitting}
+                  disabled={!isValid || isSubmitting}
                   type='submit'
                   fluid
                   size='large'

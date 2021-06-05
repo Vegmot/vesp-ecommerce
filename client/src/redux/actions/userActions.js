@@ -90,6 +90,9 @@ export const register =
 export const logout = () => {
   localStorage.removeItem('userData')
   localStorage.removeItem('cartItems')
+  localStorage.removeItem('shippingAddress')
+  localStorage.removeItem('paymentMethod')
+  localStorage.removeItem('creditCardInfo')
   window.location.href = '/'
 }
 
