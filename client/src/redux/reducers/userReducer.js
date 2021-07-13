@@ -17,6 +17,7 @@ const initialState = {
   loading: false,
   user: null,
   userData: null,
+  isAuthenticated: false,
   success: false,
   error: null,
 }
@@ -28,7 +29,12 @@ export const userLoginReducer = (state = initialState, action) => {
     case LOGIN_REQUEST:
       return { ...state, loading: true, userData: {} }
     case LOGIN_SUCCESS:
-      return { ...state, loading: false, userData: payload }
+      return {
+        ...state,
+        loading: false,
+        isAuthenticated: true,
+        userData: payload,
+      }
     case LOGIN_FAIL:
       return { ...state, loading: false, error: payload }
     default:
@@ -43,7 +49,12 @@ export const registerReducer = (state = initialState, action) => {
     case REGISTER_REQUEST:
       return { ...state, loading: true, userData: {} }
     case REGISTER_SUCCESS:
-      return { ...state, loading: false, userData: payload }
+      return {
+        ...state,
+        loading: false,
+        isAuthenticated: true,
+        userData: payload,
+      }
     case REGISTER_FAIL:
       return { ...state, loading: false, error: payload }
     default:

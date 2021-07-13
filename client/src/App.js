@@ -1,5 +1,6 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
+import PrivateRoute from './components/routing/PrivateRoute'
 import ModalManager from './components/modals/ModalManager'
 import Navbar from './components/layout/navbar/Navbar'
 import ProductsScreen from './screens/product/ProductsScreen'
